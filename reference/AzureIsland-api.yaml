@@ -45,6 +45,13 @@ paths:
           in: header
           name: Authorization
           description: Bearer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples: {}
+        description: ''
     delete:
       summary: ''
       operationId: delete-users-userId
@@ -170,12 +177,53 @@ paths:
       responses: {}
       operationId: get-stages
       description: ステージ一覧を取得する
+  '/stage/{stageId}':
+    parameters:
+      - schema:
+          type: string
+        name: stageId
+        in: path
+        required: true
+    get:
+      summary: get-stage
+      tags: []
+      responses: {}
+      operationId: get-stage-stageId
+  '/stage/{stageId}/steps':
+    parameters:
+      - schema:
+          type: string
+        name: stageId
+        in: path
+        required: true
+    get:
+      summary: get-steps
+      tags: []
+      responses: {}
+      operationId: get-stage-stageId-steps
+  '/stage/{stageId}/step/{stepId}':
+    parameters:
+      - schema:
+          type: string
+        name: stageId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: stepId
+        in: path
+        required: true
+    get:
+      summary: get-step
+      tags: []
+      responses: {}
+      operationId: get-stage-stageId-step-stepId
 components:
   schemas:
-    User:
-      title: User
+    getUserResponse:
+      title: getUserResponse
       type: object
-      description: ''
+      description: ユーザ情報
       x-examples:
         Alice Smith:
           id: 142
@@ -196,20 +244,36 @@ components:
         email:
           type: string
           format: email
-        dateOfBirth:
+        password:
           type: string
-          format: date
-          example: '1997-10-31'
-        emailVerified:
-          type: boolean
-          description: Set to true if the user's email has been verified.
-        createDate:
-          type: string
+          format: password
+          nullable: true
+        ms_id:
+          type: integer
           format: date
           description: The date that the user was created.
+        kinds:
+          type: string
       required:
         - id
         - firstName
         - lastName
         - email
-        - emailVerified
+    postUserCreateRequest:
+      title: postUserCreate
+      x-stoplight:
+        id: 4n9jdrnyrai7r
+      type: object
+      properties:
+        lastname:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        ms_id:
+          type: string
+        kinds:
+          type: string
