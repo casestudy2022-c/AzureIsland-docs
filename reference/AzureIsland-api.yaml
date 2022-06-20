@@ -38,7 +38,9 @@ paths:
         '404':
           description: User Not Found
       operationId: get-users-userId
-      description: Azureアイランドユーザ情報取得
+      description: |-
+        Azureアイランドユーザ情報取得
+        優先度低　未定義
       parameters:
         - schema:
             type: string
@@ -58,14 +60,18 @@ paths:
       responses:
         '200':
           description: OK
-      description: Azureアイランドユーザ情報削除
+      description: |-
+        Azureアイランドユーザ情報削除
+        優先度低　未定義
     put:
       summary: ''
       operationId: put-users-userId
       responses:
         '200':
           description: OK
-      description: Azureアイランドユーザ情報修正
+      description: |-
+        Azureアイランドユーザ情報修正
+        優先度低　未定義
   /user:
     post:
       summary: Create New User
@@ -218,6 +224,32 @@ paths:
       tags: []
       responses: {}
       operationId: get-stage-stageId-step-stepId
+  /me:
+    get:
+      summary: Get My Info
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/getMeResponse'
+      operationId: get-me
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+    put:
+      summary: Update My Info
+      operationId: put-me
+      responses:
+        '200':
+          $ref: '#/components/responses/updateMeResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/updateMeRequest'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
 components:
   schemas:
     getUserResponse:
@@ -277,3 +309,83 @@ components:
           type: string
         kinds:
           type: string
+  requestBodies:
+    getUserRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              '':
+                type: string
+    updateMeRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lastname:
+                type: string
+              firstname:
+                type: string
+    getStagesRequest:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                'no':
+                  type: string
+                '':
+                  type: string
+  responses:
+    getMeResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+              email:
+                type: string
+              ms_id:
+                type: string
+              kinds:
+                type: string
+              last_clear_step:
+                type: object
+                properties:
+                  step_id:
+                    type: string
+                  total:
+                    type: string
+                  cleared:
+                    type: string
+          examples: {}
+    updateMeResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
