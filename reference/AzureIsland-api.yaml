@@ -4,6 +4,7 @@ x-stoplight:
 info:
   title: AzureIsland-api
   version: '1.0'
+  description: ''
 servers:
   - url: 'http://localhost:9000'
 paths:
@@ -17,86 +18,27 @@ paths:
         description: Id of an existing user.
     get:
       summary: Get User Info by User ID
-      tags: []
+      tags:
+        - user
       responses:
         '200':
-          description: User Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                Get User Alice Smith:
-                  value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
+          description: OK
         '404':
           description: User Not Found
       operationId: get-users-userId
       description: |-
         Azureアイランドユーザ情報取得
         優先度低　未定義
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-          description: Bearer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-            examples: {}
-        description: ''
-    delete:
-      summary: ''
-      operationId: delete-users-userId
-      responses:
-        '200':
-          description: OK
-      description: |-
-        Azureアイランドユーザ情報削除
-        優先度低　未定義
-    put:
-      summary: ''
-      operationId: put-users-userId
-      responses:
-        '200':
-          description: OK
-      description: |-
-        Azureアイランドユーザ情報修正
-        優先度低　未定義
+      parameters: []
+      security:
+        - Authorization: []
   /user:
     post:
       summary: Create New User
       operationId: post-user
       responses:
         '200':
-          description: User Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                New User Bob Fellow:
-                  value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
-        '400':
           description: Missing Required Information
-        '409':
-          description: Email Already Taken
       requestBody:
         content:
           application/json:
@@ -449,6 +391,20 @@ components:
         - title
         - description
         - 'no'
+    User:
+      title: User
+      x-stoplight:
+        id: 2v7xwecpn62sx
+      type: object
+      properties:
+        id:
+          type: integer
+        lastname:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
   requestBodies:
     getUserRequest:
       content:
@@ -697,3 +653,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Building'
+  securitySchemes:
+    Authorization:
+      name: API Key
+      type: apiKey
+      in: header
+tags:
+  - name: building
+  - name: map
+  - name: stage
+  - name: user
