@@ -126,63 +126,105 @@ paths:
                   dateOfBirth: '1996-08-24'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
-  /objects:
+  /buildings:
     get:
-      summary: get-objects
+      summary: get-buildings
       tags: []
-      responses: {}
-      operationId: get-objects
-      description: 建物の種類の一覧を取得する
-  '/object/{objectId}':
-    parameters:
-      - schema:
-          type: string
-        name: objectId
-        in: path
-        required: true
-    get:
-      summary: get-object
-      tags: []
-      responses: {}
-      operationId: get-object-objectId
-  '/build/{objectId}':
-    parameters:
-      - schema:
-          type: string
-        name: objectId
-        in: path
-        required: true
-    put:
-      summary: put-build-object
-      tags: []
-      responses: {}
-      operationId: put-build-objectId
-      description: マップ上にあるオブジェクトを更新するAPI
-    delete:
-      summary: delete-build-object
-      tags: []
-      responses: {}
-      operationId: delete-build-objectId
-      description: ''
-    post:
-      summary: post-build-object
-      tags: []
-      responses: {}
-      operationId: post-build-objectId
-      description: オブジェクトをマップに建設するAPI
-    get:
-      summary: ''
-      operationId: get-build-objectId
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    step_id:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    rank:
+                      type: object
+                      properties:
+                        rank:
+                          type: string
+                        image_address:
+                          type: string
+              examples:
+                example-1:
+                  value:
+                    - id: string
+                      step_id: string
+                      name: string
+                      description: string
+                      rank:
+                        rank: string
+                        image_address: string
+      operationId: get-objects
+      description: 建物の種類の一覧を取得する
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+    parameters: []
+  '/building/{buildingId}':
+    parameters:
+      - schema:
+          type: string
+        name: buildingId
+        in: path
+        required: true
+    get:
+      summary: get-building
+      tags: []
+      operationId: get-object-objectId
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      description: 指定の建物の情報を取得します。
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  rank:
+                    type: object
+                    properties:
+                      rank:
+                        type: string
+                      image_address:
+                        type: string
   /stages:
     get:
       summary: get-stages
       tags: []
-      responses: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/getStagesResponse'
       operationId: get-stages
       description: ステージ一覧を取得する
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
   '/stage/{stageId}':
     parameters:
       - schema:
@@ -190,11 +232,20 @@ paths:
         name: stageId
         in: path
         required: true
+        description: ステージid
     get:
       summary: get-stage
       tags: []
-      responses: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/getStageResponse'
       operationId: get-stage-stageId
+      description: 指定したステージ情報取得
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
   '/stage/{stageId}/steps':
     parameters:
       - schema:
@@ -205,8 +256,15 @@ paths:
     get:
       summary: get-steps
       tags: []
-      responses: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/getStepsResponse'
       operationId: get-stage-stageId-steps
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
   '/stage/{stageId}/step/{stepId}':
     parameters:
       - schema:
@@ -222,8 +280,15 @@ paths:
     get:
       summary: get-step
       tags: []
-      responses: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/getStepResponse'
       operationId: get-stage-stageId-step-stepId
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
   /me:
     get:
       summary: Get My Info
@@ -250,6 +315,36 @@ paths:
             type: string
           in: header
           name: authorization
+  /map:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/getMapResponse'
+      operationId: get-map
+      description: 建築済みのオブジェクトなどの現在のマップ上の情報を取得します。
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+  /building:
+    head:
+      summary: socket build
+      operationId: head-build
+      responses:
+        '200':
+          description: OK
+      description: websocketです！！！
+      requestBody:
+        $ref: '#/components/requestBodies/socketBuildingRequest'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: authorization
+    parameters: []
 components:
   schemas:
     getUserResponse:
@@ -309,6 +404,51 @@ components:
           type: string
         kinds:
           type: string
+      description: ''
+    Building:
+      title: Building
+      x-stoplight:
+        id: raadytanuyaso
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        image_address:
+          type: string
+        rank:
+          type: string
+      required:
+        - id
+        - name
+        - description
+        - image_address
+        - rank
+    step:
+      title: step
+      x-stoplight:
+        id: atmw055r61sns
+      type: object
+      properties:
+        id:
+          type: string
+        stage_id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        'no':
+          type: string
+      required:
+        - id
+        - stage_id
+        - title
+        - description
+        - 'no'
   requestBodies:
     getUserRequest:
       content:
@@ -328,24 +468,22 @@ components:
                 type: string
               firstname:
                 type: string
-    getStagesRequest:
+    socketBuildingRequest:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                title:
-                  type: string
-                description:
-                  type: string
-                'no':
-                  type: string
-                '':
-                  type: string
+            type: object
+            properties:
+              building_id:
+                type: string
+              address:
+                type: string
+              name:
+                type: string
+            required:
+              - building_id
+              - address
+              - name
   responses:
     getMeResponse:
       description: Example response
@@ -368,6 +506,10 @@ components:
                 type: string
               last_clear_step:
                 type: object
+                required:
+                  - step_id
+                  - total
+                  - cleared
                 properties:
                   step_id:
                     type: string
@@ -375,6 +517,14 @@ components:
                     type: string
                   cleared:
                     type: string
+            required:
+              - id
+              - firstname
+              - lastname
+              - email
+              - ms_id
+              - kinds
+              - last_clear_step
           examples: {}
     updateMeResponse:
       description: Example response
@@ -389,3 +539,161 @@ components:
                 type: string
               lastname:
                 type: string
+            required:
+              - id
+              - firstname
+              - lastname
+    getStagesResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                'no':
+                  type: string
+                step:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      'no':
+                        type: string
+                    required:
+                      - id
+                      - title
+                      - description
+                      - 'no'
+              required:
+                - id
+                - title
+                - description
+                - 'no'
+                - step
+    getStageResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              description:
+                type: string
+              'no':
+                type: string
+              step:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    'no':
+                      type: string
+                  required:
+                    - id
+                    - title
+                    - description
+                    - 'no'
+            required:
+              - id
+              - title
+              - description
+              - 'no'
+              - step
+    getStepsResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/step'
+          examples:
+            example-1:
+              value:
+                - id: string
+                  stage_id: string
+                  title: string
+                  description: string
+                  'no': string
+    getStepResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/step'
+          examples:
+            example-1:
+              value:
+                id: string
+                stage_id: string
+                title: string
+                description: string
+                'no': string
+    getMapResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                coordinate_id:
+                  type: string
+                user_id:
+                  type: string
+                address:
+                  type: string
+                nickname:
+                  type: string
+                building_id:
+                  type: string
+                building_name:
+                  type: string
+                description:
+                  type: string
+                image_address:
+                  type: string
+                rank:
+                  type: string
+              required:
+                - coordinate_id
+                - user_id
+                - address
+                - nickname
+                - building_id
+                - building_name
+                - description
+                - image_address
+                - rank
+          examples: {}
+    getBuildingResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Building'
