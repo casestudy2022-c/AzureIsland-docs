@@ -1,0 +1,12 @@
+{
+  "name": "AzureIsland-docs",
+  "version": "1.0.0",
+  "scripts": {
+    "mock:main": "prism mock -p 4100 ./reference/AzureIsland-api.yaml",
+    "mock:admin": "prism mock -p 4200 ./reference/AzureIsland-admin.yaml",
+    "mock:teacher": "prism mock -p 4300 ./reference/AzureIsland-teacher.yaml"
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^4.10.1"
+  }
+}
