@@ -3,9 +3,9 @@ x-stoplight:
   id: gr0crptnshajn
 info:
   title: AzureIsland--teacher-api
-  version: '1.0'
+  version: "1.0"
 servers:
-  - url: 'http://localhost:9000'
+  - url: "http://localhost:9000"
 paths:
   /school-admin/teachers:
     get:
@@ -13,7 +13,7 @@ paths:
       tags: []
       responses: {}
       operationId: get-school-admin-teachers
-  '/school-admin/teacher/{teacherId}':
+  "/school-admin/teacher/{teacherId}":
     parameters:
       - schema:
           type: string
@@ -58,7 +58,7 @@ paths:
       tags: []
       responses: {}
       operationId: get-school-admin-students
-  '/school-admin/student/{studentId}':
+  "/school-admin/student/{studentId}":
     parameters:
       - schema:
           type: string
@@ -85,16 +85,16 @@ components:
     User:
       title: User
       type: object
-      description: ''
+      description: ""
       x-examples:
         Alice Smith:
           id: 142
           firstName: Alice
           lastName: Smith
           email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
+          dateOfBirth: "1997-10-31"
           emailVerified: true
-          signUpDate: '2019-08-24'
+          signUpDate: "2019-08-24"
       properties:
         id:
           type: integer
@@ -109,7 +109,7 @@ components:
         dateOfBirth:
           type: string
           format: date
-          example: '1997-10-31'
+          example: "1997-10-31"
         emailVerified:
           type: boolean
           description: Set to true if the user's email has been verified.
