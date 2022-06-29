@@ -4,18 +4,18 @@ x-stoplight:
 info:
   title: AzureIsland-api
   version: '1.0'
-  description: ''
+  description: Azure Islandのサービスで使用されるAPIの設計
 servers:
   - url: 'http://localhost:9000'
 paths:
   '/users/{userId}':
     parameters:
-      - schema:
-          type: integer
-        name: userId
+      - name: userId
         in: path
-        description: 取得ユーザのid
         required: true
+        schema:
+          type: integer
+        description: 取得ユーザのid
     get:
       summary: Get User
       tags:
@@ -48,12 +48,7 @@ paths:
     parameters: []
   '/buildings/{buildingId}':
     parameters:
-      - schema:
-          type: integer
-        name: buildingId
-        in: path
-        required: true
-        description: 取得建物のid
+      - $ref: '#/components/parameters/buildingId'
     get:
       summary: Get Building
       tags:
@@ -85,12 +80,7 @@ paths:
         - Authorization: []
   '/stages/{stageId}':
     parameters:
-      - schema:
-          type: integer
-        name: stageId
-        in: path
-        required: true
-        description: 取得ステージのid
+      - $ref: '#/components/parameters/stageId'
     get:
       summary: Get Stage
       tags:
@@ -107,12 +97,7 @@ paths:
         - Authorization: []
   '/stages/{stageId}/steps':
     parameters:
-      - schema:
-          type: integer
-        name: stageId
-        in: path
-        required: true
-        description: 取得ステップのステージid
+      - $ref: '#/components/parameters/stageId'
     get:
       summary: Get Step List
       tags:
@@ -129,18 +114,8 @@ paths:
       description: 指定ステージのステップ一覧の取得
   '/stages/{stageId}/steps/{stepId}':
     parameters:
-      - schema:
-          type: string
-        name: stageId
-        in: path
-        required: true
-        description: 取得ステップのステージid
-      - schema:
-          type: string
-        name: stepId
-        in: path
-        required: true
-        description: 取得ステップのid
+      - $ref: '#/components/parameters/stageId'
+      - $ref: '#/components/parameters/stepId'
     get:
       summary: Get Step
       tags:
@@ -213,6 +188,8 @@ paths:
         - Authorization: []
       requestBody:
         $ref: '#/components/requestBodies/socketBuildingRequest'
+      tags:
+        - socket
     parameters: []
 components:
   schemas:
@@ -674,8 +651,38 @@ components:
       in: header
       name: Authorization
   examples: {}
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: 取得ユーザのid
+    buildingId:
+      name: buildingId
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: 取得建物のid
+    stageId:
+      name: stageId
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: 取得ステージのid
+    stepId:
+      name: stepId
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: 取得ステップのid
 tags:
   - name: building
   - name: map
   - name: stage
   - name: user
+  - name: z-socket
