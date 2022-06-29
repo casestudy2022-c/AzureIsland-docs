@@ -14,298 +14,216 @@ paths:
           type: integer
         name: userId
         in: path
+        description: 取得ユーザのid
         required: true
-        description: Id of an existing user.
     get:
-      summary: Get User Info by User ID
+      summary: Get User
       tags:
         - user
       responses:
         '200':
-          description: OK
-        '404':
+          $ref: '#/components/responses/User'
+        '401':
           description: User Not Found
       operationId: get-users-userId
-      description: |-
-        Azureアイランドユーザ情報取得
-        優先度低　未定義
+      description: 指定したユーザ情報の取得
       parameters: []
       security:
         - Authorization: []
-  /user:
-    post:
-      summary: Create New User
-      operationId: post-user
-      responses:
-        '200':
-          description: Missing Required Information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
-            examples:
-              Create User Bob Fellow:
-                value:
-                  firstName: Bob
-                  lastName: Fellow
-                  email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
-        description: Post the necessary fields for the API to create a new user.
-      description: Create a new user.
   /buildings:
     get:
-      summary: get-buildings
-      tags: []
+      summary: Get Building List
+      tags:
+        - building
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    step_id:
-                      type: string
-                    name:
-                      type: string
-                    description:
-                      type: string
-                    rank:
-                      type: object
-                      properties:
-                        rank:
-                          type: string
-                        image_address:
-                          type: string
-              examples:
-                example-1:
-                  value:
-                    - id: string
-                      step_id: string
-                      name: string
-                      description: string
-                      rank:
-                        rank: string
-                        image_address: string
-      operationId: get-objects
-      description: 建物の種類の一覧を取得する
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
+          $ref: '#/components/responses/BuildingList'
+        '401':
+          description: Unauthorized
+      operationId: get-buildings
+      description: 建物一覧の取得
+      parameters: []
+      security:
+        - Authorization: []
     parameters: []
-  '/building/{buildingId}':
+  '/buildings/{buildingId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: buildingId
         in: path
         required: true
+        description: 取得建物のid
     get:
-      summary: get-building
-      tags: []
-      operationId: get-object-objectId
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-      description: 指定の建物の情報を取得します。
+      summary: Get Building
+      tags:
+        - building
+      operationId: get-buildings-buildingId
+      parameters: []
+      description: 指定した建物の取得
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  rank:
-                    type: object
-                    properties:
-                      rank:
-                        type: string
-                      image_address:
-                        type: string
+          $ref: '#/components/responses/Building'
+        '401':
+          description: Unauthorized
+      security:
+        - Authorization: []
   /stages:
     get:
-      summary: get-stages
-      tags: []
+      summary: Get Stage
+      tags:
+        - stage
       responses:
         '200':
-          $ref: '#/components/responses/getStagesResponse'
+          $ref: '#/components/responses/StageList'
+        '401':
+          description: Unauthorized
       operationId: get-stages
-      description: ステージ一覧を取得する
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-  '/stage/{stageId}':
+      description: ステージ一覧の取得
+      parameters: []
+      security:
+        - Authorization: []
+  '/stages/{stageId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: stageId
         in: path
         required: true
-        description: ステージid
+        description: 取得ステージのid
     get:
-      summary: get-stage
-      tags: []
+      summary: Get Stage
+      tags:
+        - stage
       responses:
         '200':
-          $ref: '#/components/responses/getStageResponse'
+          $ref: '#/components/responses/Stage'
+        '401':
+          description: Unauthorized
       operationId: get-stage-stageId
-      description: 指定したステージ情報取得
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-  '/stage/{stageId}/steps':
+      description: 指定したステージ情報の取得
+      parameters: []
+      security:
+        - Authorization: []
+  '/stages/{stageId}/steps':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: stageId
         in: path
         required: true
+        description: 取得ステップのステージid
     get:
-      summary: get-steps
-      tags: []
+      summary: Get Step List
+      tags:
+        - stage
       responses:
         '200':
-          $ref: '#/components/responses/getStepsResponse'
+          $ref: '#/components/responses/StepList'
+        '401':
+          description: Unauthorized
       operationId: get-stage-stageId-steps
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-  '/stage/{stageId}/step/{stepId}':
+      parameters: []
+      security:
+        - Authorization: []
+      description: 指定ステージのステップ一覧の取得
+  '/stages/{stageId}/steps/{stepId}':
     parameters:
       - schema:
           type: string
         name: stageId
         in: path
         required: true
+        description: 取得ステップのステージid
       - schema:
           type: string
         name: stepId
         in: path
         required: true
+        description: 取得ステップのid
     get:
-      summary: get-step
-      tags: []
+      summary: Get Step
+      tags:
+        - stage
       responses:
         '200':
-          $ref: '#/components/responses/getStepResponse'
+          $ref: '#/components/responses/Step'
+        '401':
+          description: Unauthorized
       operationId: get-stage-stageId-step-stepId
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
+      parameters: []
+      description: 指定したステップの取得
+      security:
+        - Authorization: []
   /me:
     get:
-      summary: Get My Info
-      tags: []
-      responses:
-        '200':
-          $ref: '#/components/responses/getMeResponse'
+      summary: Get Me
+      tags:
+        - user
       operationId: get-me
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: authorization
-    put:
-      summary: Update My Info
-      operationId: put-me
+      parameters: []
+      security:
+        - Authorization: []
+      description: ''
       responses:
         '200':
-          $ref: '#/components/responses/updateMeResponse'
+          $ref: '#/components/responses/Me'
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update Me
+      operationId: put-me
+      parameters: []
+      tags:
+        - user
+      security:
+        - Authorization: []
       requestBody:
-        $ref: '#/components/requestBodies/updateMeRequest'
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: authorization
+        $ref: '#/components/requestBodies/Me'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
   /map:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get Map
+      tags:
+        - map
       responses:
         '200':
-          $ref: '#/components/responses/getMapResponse'
+          $ref: '#/components/responses/Map'
+        '401':
+          description: Unauthorized
       operationId: get-map
-      description: 建築済みのオブジェクトなどの現在のマップ上の情報を取得します。
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: authorization
+      description: マップの情報を取得
+      parameters: []
+      security:
+        - Authorization: []
   /building:
     head:
       summary: socket build
       operationId: head-build
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
       description: websocketです！！！
+      parameters: []
+      security:
+        - Authorization: []
       requestBody:
         $ref: '#/components/requestBodies/socketBuildingRequest'
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: authorization
     parameters: []
 components:
   schemas:
-    getUserResponse:
-      title: getUserResponse
+    Me:
+      title: Me
       type: object
-      description: ユーザ情報
-      x-examples:
-        Alice Smith:
-          id: 142
-          firstName: Alice
-          lastName: Smith
-          email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
-          emailVerified: true
-          signUpDate: '2019-08-24'
+      description: ログインユーザ情報
+      x-examples: {}
       properties:
         id:
           type: integer
-          description: Unique identifier for the given user.
         firstName:
           type: string
         lastName:
@@ -313,351 +231,449 @@ components:
         email:
           type: string
           format: email
-        password:
-          type: string
-          format: password
-          nullable: true
-        ms_id:
-          type: integer
-          format: date
-          description: The date that the user was created.
-        kinds:
-          type: string
       required:
-        - id
         - firstName
         - lastName
         - email
-    postUserCreateRequest:
-      title: postUserCreate
+    MeDetail:
+      title: MeDetail
       x-stoplight:
-        id: 4n9jdrnyrai7r
+        id: 8bgk7jor6jxva
       type: object
+      x-examples: {}
       properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        kinds:
+          type: string
+          description: '0:先生, 1:生徒'
+          enum:
+            - student
+            - teacher
+        lastClearStep:
+          $ref: '#/components/schemas/LastClearStep'
+      required:
+        - firstName
+        - lastName
+        - email
+    User:
+      title: User
+      x-stoplight:
+        id: r1xjeguizl6lj
+      type: object
+      description: ''
+      x-examples:
+        example:
+          id: 1
+          lastname: 春
+          firstname: 太郎
+          email: example@example.com
+          permission:
+            id: 1
+            name: ALL
+            'no': 1
+            description: 全ての権限を持ちます
+      properties:
+        id:
+          type: integer
         lastname:
           type: string
         firstname:
           type: string
-        email:
-          type: string
-        password:
-          type: string
-        ms_id:
-          type: string
-        kinds:
-          type: string
-      description: ''
+      required:
+        - lastname
+        - firstname
     Building:
       title: Building
       x-stoplight:
         id: raadytanuyaso
       type: object
+      x-examples:
+        example:
+          id: 1
+          name: 家
+          description: Webサーバを見立てた建物
+          ranks:
+            - id: 1
+              rank: 1
+              imageSrc: /web-server_rank1.png
+              isOpen: true
       properties:
         id:
-          type: string
+          type: integer
         name:
           type: string
         description:
           type: string
-        image_address:
-          type: string
-        rank:
-          type: string
+        ranks:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildingRank'
       required:
-        - id
         - name
         - description
-        - image_address
-        - rank
-    step:
-      title: step
+        - ranks
+    BuildingDetail:
+      title: BuildingDetail
       x-stoplight:
-        id: atmw055r61sns
+        id: darb3c6ltdlyx
+      type: object
+      x-examples: {}
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        rank:
+          type: integer
+        imageSrc:
+          type: string
+          format: uri
+      required:
+        - name
+        - description
+        - rank
+        - imageSrc
+    BuildingRank:
+      title: BuildingRank
+      x-stoplight:
+        id: xqqqrpb9l1now
       type: object
       properties:
         id:
+          type: integer
+        rank:
+          type: integer
+        imageSrc:
           type: string
-        stage_id:
-          type: string
+      required:
+        - rank
+        - imageSrc
+    Stage:
+      title: Stage
+      x-stoplight:
+        id: yjwjnjgfb4xzv
+      type: object
+      x-examples:
+        example:
+          id: 1
+          title: Webサーバを使ってみよう！
+          description: Webサーバを使ったステージ
+          'no': 1
+          steps:
+            - id: 1
+              title: お家を立ててみよう!
+              description: webサーバを立てるステップです
+              'no': 1
+            - id: 2
+              title: お家の装飾を変えてみよう!
+              description: webサーバの設定を変更するステップです
+              'no': 2
+      properties:
+        id:
+          type: integer
         title:
           type: string
         description:
           type: string
         'no':
-          type: string
+          type: integer
       required:
-        - id
-        - stage_id
         - title
         - description
         - 'no'
-    User:
-      title: User
+    StageDetail:
+      title: StageDetail
       x-stoplight:
-        id: 2v7xwecpn62sx
+        id: 84x67v0a481u5
       type: object
+      x-examples: {}
       properties:
         id:
           type: integer
-        lastname:
+        title:
           type: string
-        firstname:
+        description:
           type: string
-        email:
+        'no':
+          type: integer
+        step:
+          $ref: '#/components/schemas/Step'
+      required:
+        - title
+        - description
+        - 'no'
+        - step
+    StageAndSteps:
+      title: StageAndSteps
+      x-stoplight:
+        id: 7o85g2bxbkfxi
+      type: object
+      x-examples:
+        example:
+          id: 1
+          title: Webサーバを使ってみよう！
+          description: Webサーバを使ったステージ
+          'no': 1
+          steps:
+            - id: 1
+              title: お家を立ててみよう!
+              description: webサーバを立てるステップです
+              'no': 1
+            - id: 2
+              title: お家の装飾を変えてみよう!
+              description: webサーバの設定を変更するステップです
+              'no': 2
+      properties:
+        id:
+          type: integer
+        title:
           type: string
+        description:
+          type: string
+        'no':
+          type: integer
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Step'
+      required:
+        - title
+        - description
+        - 'no'
+        - steps
+    Step:
+      title: Step
+      x-stoplight:
+        id: atmw055r61sns
+      type: object
+      x-examples:
+        example1:
+          id: 1
+          title: お家を立ててみよう!
+          description: webサーバを立てるステップです
+          'no': 1
+        example2:
+          id: 2
+          title: お家の装飾を変えてみよう!
+          description: webサーバの設定を変更するステップです
+          'no': 2
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        'no':
+          type: integer
+      required:
+        - title
+        - description
+        - 'no'
+    LastClearStep:
+      title: LastClearStep
+      x-stoplight:
+        id: mm2fcyvarnvpn
+      type: object
+      x-examples: {}
+      properties:
+        stage:
+          $ref: '#/components/schemas/StageDetail'
+        clearDatetime:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - stage
+        - clearDatetime
+    Map:
+      title: Map
+      x-stoplight:
+        id: 79jmktzawfr6b
+      type: object
+      x-examples: {}
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: 建てた建物自体の名前(表札のイメージ)
+        x:
+          type: integer
+          description: X座標
+        'y':
+          type: integer
+          description: Y座標
+        user:
+          $ref: '#/components/schemas/User'
+        building:
+          $ref: '#/components/schemas/BuildingDetail'
+      required:
+        - name
+        - x
+        - 'y'
+        - user
+        - building
+    socketBuildingRequest:
+      title: socketBuildingRequest
+      x-stoplight:
+        id: z8jz7qywacze5
+      type: object
+      x-examples: {}
+      properties:
+        name:
+          type: string
+        x:
+          type: integer
+        'y':
+          type: integer
+        buildingId:
+          type: integer
+        rank:
+          type: integer
+    Permission:
+      title: Permission
+      x-stoplight:
+        id: h4x0vokew4f8h
+      type: object
+      description: ''
+      x-examples:
+        example:
+          id: 1
+          name: ALL
+          'no': 1
+          description: 全ての権限を持ちます
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        'no':
+          type: integer
+        description:
+          type: string
+      required:
+        - name
+        - 'no'
+        - description
+    Progress:
+      title: Progress
+      x-stoplight:
+        id: f7m9cz0qei5bx
+      type: object
+      x-examples: {}
+      properties:
+        id:
+          type: integer
   requestBodies:
-    getUserRequest:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              '':
-                type: string
-    updateMeRequest:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              lastname:
-                type: string
-              firstname:
-                type: string
     socketBuildingRequest:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              building_id:
-                type: string
-              address:
-                type: string
-              name:
-                type: string
-            required:
-              - building_id
-              - address
-              - name
+            $ref: '#/components/schemas/socketBuildingRequest'
+      description: ''
+    Me:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Me'
+          examples: {}
   responses:
-    getMeResponse:
+    Me:
       description: Example response
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              firstname:
-                type: string
-              lastname:
-                type: string
-              email:
-                type: string
-              ms_id:
-                type: string
-              kinds:
-                type: string
-              last_clear_step:
-                type: object
-                required:
-                  - step_id
-                  - total
-                  - cleared
-                properties:
-                  step_id:
-                    type: string
-                  total:
-                    type: string
-                  cleared:
-                    type: string
-            required:
-              - id
-              - firstname
-              - lastname
-              - email
-              - ms_id
-              - kinds
-              - last_clear_step
+            $ref: '#/components/schemas/MeDetail'
           examples: {}
-    updateMeResponse:
+    Map:
       description: Example response
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              firstname:
-                type: string
-              lastname:
-                type: string
-            required:
-              - id
-              - firstname
-              - lastname
-    getStagesResponse:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                title:
-                  type: string
-                description:
-                  type: string
-                'no':
-                  type: string
-                step:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      title:
-                        type: string
-                      description:
-                        type: string
-                      'no':
-                        type: string
-                    required:
-                      - id
-                      - title
-                      - description
-                      - 'no'
-              required:
-                - id
-                - title
-                - description
-                - 'no'
-                - step
-    getStageResponse:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              id:
-                type: string
-              title:
-                type: string
-              description:
-                type: string
-              'no':
-                type: string
-              step:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    title:
-                      type: string
-                    description:
-                      type: string
-                    'no':
-                      type: string
-                  required:
-                    - id
-                    - title
-                    - description
-                    - 'no'
-            required:
-              - id
-              - title
-              - description
-              - 'no'
-              - step
-    getStepsResponse:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/step'
-          examples:
-            example-1:
-              value:
-                - id: string
-                  stage_id: string
-                  title: string
-                  description: string
-                  'no': string
-    getStepResponse:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/step'
-          examples:
-            example-1:
-              value:
-                id: string
-                stage_id: string
-                title: string
-                description: string
-                'no': string
-    getMapResponse:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                coordinate_id:
-                  type: string
-                user_id:
-                  type: string
-                address:
-                  type: string
-                nickname:
-                  type: string
-                building_id:
-                  type: string
-                building_name:
-                  type: string
-                description:
-                  type: string
-                image_address:
-                  type: string
-                rank:
-                  type: string
-              required:
-                - coordinate_id
-                - user_id
-                - address
-                - nickname
-                - building_id
-                - building_name
-                - description
-                - image_address
-                - rank
+            $ref: '#/components/schemas/Map'
           examples: {}
-    getBuildingResponse:
+    Building:
       description: Example response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Building'
+          examples: {}
+    User:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+          examples:
+            example:
+              value:
+                id: 1
+                lastname: 春
+                firstname: 太郎
+    BuildingList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              buildings:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Building'
+    Stage:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StageAndSteps'
+    StageList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              stages:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StageAndSteps'
+    Step:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Step'
+    StepList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              steps:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Step'
+          examples: {}
   securitySchemes:
     Authorization:
-      name: API Key
       type: apiKey
       in: header
+      name: Authorization
+  examples: {}
 tags:
   - name: building
   - name: map
