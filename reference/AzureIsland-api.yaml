@@ -314,7 +314,6 @@ components:
           type: integer
         imageSrc:
           type: string
-          format: uri
       required:
         - name
         - description
@@ -564,7 +563,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Me'
-          examples: {}
+          examples:
+            example:
+              value:
+                id: 2
+                firstName: 大阪
+                lastName: 太郎
+                email: useruser@example.com
   responses:
     Me:
       description: Example response
@@ -572,21 +577,70 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MeDetail'
-          examples: {}
+          examples:
+            example:
+              value:
+                id: 1
+                firstName: 春
+                lastName: 太郎
+                email: user@example.com
+                kinds: student
+                lastClearStep:
+                  stage:
+                    id: 1
+                    title: Webサーバを使ってみよう！
+                    description: Webサーバを使ったステージ
+                    'no': 1
+                    step:
+                      id: 2
+                      title: お家の装飾を変えてみよう!
+                      description: webサーバの設定を変更するステップです
+                      'no': 2
+                  clearDatetime: '2019-08-24T14:15:22Z'
     Map:
       description: Example response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Map'
-          examples: {}
+          examples:
+            example:
+              value:
+                id: 23
+                name: 春太郎の家
+                x: 3
+                'y': 12
+                user:
+                  id: 1
+                  lastname: 春
+                  firstname: 太郎
+                building:
+                  id: 1
+                  name: 家
+                  description: Webサーバを見立てた建物
+                  rank: 1
+                  imageSrc: /web-server_rank1.png
     Building:
       description: Example response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Building'
-          examples: {}
+          examples:
+            example:
+              value:
+                id: 1
+                name: 家
+                description: Webサーバを見立てた建物
+                ranks:
+                  - id: 1
+                    rank: 1
+                    imageSrc: /web-server_rank1.png
+                    isOpen: true
+                  - id: 2
+                    rank: 2
+                    imageSrc: /web-server_rank2.png
+                    isOpen: false
     User:
       description: ''
       content:
@@ -596,9 +650,9 @@ components:
           examples:
             example:
               value:
-                id: 1
-                lastname: 春
-                firstname: 太郎
+                id: 99
+                lastname: 猛度
+                firstname: 花子
     BuildingList:
       description: Example response
       content:
@@ -610,12 +664,56 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/Building'
+          examples:
+            example:
+              value:
+                buildings:
+                  - id: 1
+                    name: 家
+                    description: Webサーバを見立てた建物
+                    ranks:
+                      - id: 1
+                        rank: 1
+                        imageSrc: /web-server_rank1.png
+                        isOpen: true
+                      - id: 2
+                        rank: 2
+                        imageSrc: /web-server_rank2.png
+                        isOpen: false
+                  - id: 2
+                    name: 郵便局
+                    description: ファイルサーバを見立てた建物
+                    ranks:
+                      - id: 3
+                        rank: 1
+                        imageSrc: /file-server_rank1.png
+                        isOpen: false
+                      - id: 4
+                        rank: 2
+                        imageSrc: /file-server_rank2.png
+                        isOpen: false
     Stage:
       description: Example response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/StageAndSteps'
+          examples:
+            example:
+              value:
+                id: 1
+                title: Webサーバを使ってみよう！
+                description: Webサーバを使ったステージ
+                'no': 1
+                steps:
+                  - id: 1
+                    title: お家を立ててみよう!
+                    description: webサーバを立てるステップです
+                    'no': 1
+                  - id: 2
+                    title: お家の装飾を変えてみよう!
+                    description: webサーバの設定を変更するステップです
+                    'no': 2
     StageList:
       description: Example response
       content:
@@ -627,12 +725,49 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/StageAndSteps'
+          examples:
+            example:
+              value:
+                stages:
+                  - id: 1
+                    title: Webサーバを使ってみよう！
+                    description: Webサーバを使ったステージ
+                    'no': 1
+                    steps:
+                      - id: 1
+                        title: お家を立ててみよう!
+                        description: webサーバを立てるステップです
+                        'no': 1
+                      - id: 2
+                        title: お家の装飾を変えてみよう!
+                        description: webサーバの設定を変更するステップです
+                        'no': 2
+                  - id: 2
+                    title: ファイルサーバを使ってみよう！
+                    description: ファイルサーバを使ったステージ
+                    'no': 2
+                    steps:
+                      - id: 3
+                        title: 郵便局を立ててみよう!
+                        description: ファイルサーバを立てるステップです
+                        'no': 1
+                      - id: 4
+                        title: 従業員さんを雇おう！
+                        description: ファイルサーバの設定を変更するステップです
+                        'no': 2
     Step:
       description: Example response
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Step'
+          examples:
+            example:
+              value:
+                id: 1
+                title: お家を立ててみよう!
+                description: webサーバを立てるステップです
+                'no': 1
     StepList:
       description: Example response
       content:
@@ -644,7 +779,18 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/Step'
-          examples: {}
+          examples:
+            example:
+              value:
+                steps:
+                  - id: 1
+                    title: お家を立ててみよう!
+                    description: webサーバを立てるステップです
+                    'no': 1
+                  - id: 2
+                    title: お家の装飾を変えてみよう!
+                    description: webサーバの設定を変更するステップです
+                    'no': 2
   securitySchemes:
     Authorization:
       type: apiKey
