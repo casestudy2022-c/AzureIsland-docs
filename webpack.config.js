@@ -9,7 +9,6 @@ module.exports = {
   mode: 'development',
   context: contextPath,
   entry: {
-    app: './index',
     "js/main": './js/main',
     "js/teacher": './js/teacher',
     "js/admin": './js/admin',
