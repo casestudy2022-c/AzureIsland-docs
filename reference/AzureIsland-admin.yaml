@@ -3,7 +3,8 @@ x-stoplight:
   id: 9fk15lvg4dcys
 info:
   title: AzureIsland-admin
-  version: '1.0'
+  version: '0.0.0'
+  description: こちらはまだ未設計のため参考にしないでください 
 servers:
   - url: 'http://localhost:3000'
 paths:

@@ -3,7 +3,8 @@ x-stoplight:
   id: gr0crptnshajn
 info:
   title: AzureIsland--teacher-api
-  version: "1.0"
+  version: "0.0.0"
+  description: こちらはまだ未設計のため参考にしないでください 
 servers:
   - url: "http://localhost:9000"
 paths:
