@@ -3,7 +3,7 @@ x-stoplight:
   id: wn6i4fn27mv6j
 info:
   title: AzureIsland-api
-  version: '1.0'
+  version: '1.0.0'
   description: Azure Islandのサービスで使用されるAPIの設計
 servers:
   - url: 'http://localhost:9000'
