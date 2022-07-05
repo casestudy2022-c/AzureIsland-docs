@@ -21,7 +21,7 @@ jobs:
         cache: 'yarn'
     - name: Install Yarn packages
       run: |
-        yarn --frozen-lockfile --production
+        yarn install
     - name: Build website
       run: |
         yarn build 
