@@ -3,7 +3,7 @@ x-stoplight:
   id: wn6i4fn27mv6j
 info:
   title: AzureIsland-api
-  version: '1.0.0'
+  version: 1.0.0
   description: Azure Islandのサービスで使用されるAPIの設計
 servers:
   - url: 'http://localhost:9000'
@@ -30,6 +30,48 @@ paths:
       parameters: []
       security:
         - Authorization: []
+  /me:
+    get:
+      summary: Get Me
+      tags:
+        - user
+      operationId: get-me
+      parameters: []
+      security:
+        - Authorization: []
+      description: ''
+      responses:
+        '200':
+          $ref: '#/components/responses/Me'
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update Me
+      operationId: put-me
+      parameters: []
+      tags:
+        - user
+      security:
+        - Authorization: []
+      requestBody:
+        $ref: '#/components/requestBodies/Me'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+  /login:
+    post:
+      summary: Login User
+      operationId: post-login
+      responses:
+        '200':
+          $ref: '#/components/responses/LoginToken'
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
+      tags:
+        - user
   /buildings:
     get:
       summary: Get Building List
@@ -130,36 +172,6 @@ paths:
       description: 指定したステップの取得
       security:
         - Authorization: []
-  /me:
-    get:
-      summary: Get Me
-      tags:
-        - user
-      operationId: get-me
-      parameters: []
-      security:
-        - Authorization: []
-      description: ''
-      responses:
-        '200':
-          $ref: '#/components/responses/Me'
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update Me
-      operationId: put-me
-      parameters: []
-      tags:
-        - user
-      security:
-        - Authorization: []
-      requestBody:
-        $ref: '#/components/requestBodies/Me'
-      responses:
-        '204':
-          description: No Content
-        '401':
-          description: Unauthorized
   /map:
     get:
       summary: Get Map
@@ -189,10 +201,20 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/socketBuildingRequest'
       tags:
-        - socket
+        - z-socket
     parameters: []
 components:
   schemas:
+    Login:
+      title: Login
+      x-stoplight:
+        id: mo6i0xqhy05ur
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
     Me:
       title: Me
       type: object
@@ -551,6 +573,14 @@ components:
       properties:
         id:
           type: integer
+    Token:
+      title: Token
+      x-stoplight:
+        id: chij2juvvbext
+      type: object
+      properties:
+        token:
+          type: string
   requestBodies:
     socketBuildingRequest:
       content:
@@ -570,6 +600,11 @@ components:
                 firstName: 大阪
                 lastName: 太郎
                 email: useruser@example.com
+    Login:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Login'
   responses:
     Me:
       description: Example response
@@ -791,6 +826,12 @@ components:
                     title: お家の装飾を変えてみよう!
                     description: webサーバの設定を変更するステップです
                     'no': 2
+    LoginToken:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Token'
   securitySchemes:
     Authorization:
       type: apiKey
