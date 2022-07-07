@@ -605,6 +605,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Login'
+          examples:
+            example:
+              value:
+                email: useruser@example.com
+                password: P@ssw0rd
   responses:
     Me:
       description: Example response
@@ -832,6 +837,10 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Token'
+          examples:
+            example:
+              value:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
   securitySchemes:
     Authorization:
       type: apiKey
