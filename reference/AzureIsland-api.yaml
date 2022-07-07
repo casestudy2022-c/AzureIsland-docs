@@ -201,7 +201,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/socketBuildingRequest'
       tags:
-        - z-socket
+        - socket
     parameters: []
 components:
   schemas:
@@ -868,8 +868,8 @@ components:
         type: integer
       description: 取得ステップのid
 tags:
-  - name: building
-  - name: map
-  - name: stage
   - name: user
-  - name: z-socket
+  - name: building
+  - name: stage
+  - name: map
+  - name: socket
