@@ -1,5 +1,7 @@
 # AzureIsland-docs
-AzureIslandに関するドキュメントリポジトリ
+AzureIslandに関するドキュメントリポジトリ  
+
+[URL](https://casestudy2022-c.github.io/AzureIsland-docs/)
 
 ## APIドキュメントの閲覧方法
 下記等のお好みで閲覧してください。見れたらなんでもよきき。
